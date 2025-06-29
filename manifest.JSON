@@ -10,5 +10,15 @@
   },
   "action": {
     "default_popup": "popup/popup.html"
-  }
+  },
+  "permissions": ["alarms", "notifications", "storage"],
+  "background" : {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["bruh.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
