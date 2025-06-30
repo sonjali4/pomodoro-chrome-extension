@@ -14,7 +14,7 @@ function resetTimer() {
     document.getElementById("time").innerText = timesArray[currentIndex] + ":00";
 }
 
-function updateTime() {
+function updateTimeDisplay() {
     chrome.alarms.get('timer', function(alarm) {
         if (alarm) {
             const now = Date.now();
@@ -33,5 +33,5 @@ function updateTime() {
 document.getElementById("start-btn").addEventListener('click', startTimer);
 document.getElementById("reset-btn").addEventListener('click', resetTimer);
 
-window.onload = updateTime();
-setInterval(updateTime, 1000);
+window.onload = updateTimeDisplay();
+setInterval(updateTimeDisplay, 1000);
