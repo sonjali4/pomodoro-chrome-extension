@@ -4,7 +4,7 @@ let currentIndex = 0;
 function startTimer() {
     const minutes = timesArray[currentIndex];
     chrome.action.setBadgeText({ text: 'ON' });
-    chrome.alarms.create('timer', { delayInMinutes: minutes });
+    chrome.alarms.create('timer', { delayInMinutes: minutes });  // NOTE: 'timer' is the name of the alarm
     chrome.storage.sync.set({ minutes: minutes });
 }
 
@@ -14,19 +14,38 @@ function resetTimer() {
     document.getElementById("time").innerText = timesArray[currentIndex] + ":00";
 }
 
-function updateTimeDisplay() {
-    chrome.alarms.get('timer', function(alarm) {
-        if (alarm) {
-            const now = Date.now();
-            const remainingTimeMilliseconds = alarm.scheduledTime - now;
-            const totalSeconds = Math.max(0, Math.floor(remainingTimeMilliseconds / 1000));
+async function pauseTimer() {
+    // save current alarm info
+    const totalSeconds = await getRemainingTime();
+    
 
-            const remainingMinutes = Math.floor(totalSeconds / 60);
-            const remainingSeconds = totalSeconds % 60;
-            document.getElementById("time").innerText = remainingMinutes + ":" + remainingSeconds;
-        } else {
-            document.getElementById("time").innerText = timesArray[currentIndex] + ":00";
-        }
+    // clear alarm
+
+}
+
+async function updateTimeDisplay() {
+    const totalSeconds = await getRemainingTime();
+    const displayText = document.getElementById("time");
+
+    const remainingMinutes = Math.floor(totalSeconds / 60);
+    const remainingSeconds = totalSeconds % 60;
+
+    displayText.innerText = remainingMinutes + ":" + remainingSeconds;
+}
+
+function getRemainingTime() {
+    return new Promise((resolve) => {
+        chrome.alarms.get('timer', function(alarm) { 
+            if (alarm) {
+                const now = Date.now();
+                const remainingTimeMilliseconds = alarm.scheduledTime - now;
+                const totalSeconds = Math.max(0, Math.floor(remainingTimeMilliseconds / 1000));
+
+                resolve(totalSeconds);
+            } else { 
+                resolve(timesArray[currentIndex] * 60);
+            }
+        });
     });
 }
 
