@@ -22,10 +22,13 @@ function startTimer() {
             minutes = timesArray[currentIndex];
         }
 
-        chrome.action.setBadgeText({ text: 'ON' });
+        // create alarm
         chrome.alarms.create('timer', { delayInMinutes: minutes });  // NOTE: 'timer' is the name of the alarm, maybe change name later ?
+        
+        chrome.action.setBadgeText({ text: 'ON' });
         chrome.storage.local.set({ minutes: minutes });
 
+        // update display
         document.getElementById("start-btn").innerText = "Pause";
         chrome.storage.local.remove('remainingSeconds');
     });
@@ -39,6 +42,7 @@ async function pauseTimer() {
     // clear alarm
     chrome.alarms.clear('timer');
 
+    // update display
     document.getElementById("start-btn").innerText = "Start";
     updateTimeDisplay();
 }
@@ -47,23 +51,27 @@ function resetTimer() {
     chrome.action.setBadgeText({ text: '' });
     chrome.alarms.clearAll();
 
-    document.getElementById("start-btn").innerText = "Pause";
     chrome.storage.local.remove('remainingSeconds');
+
+    // update display
+    document.getElementById("start-btn").innerText = "Pause";
     updateTimeDisplay();
 }
 
 async function updateTimeDisplay() {
+    // calculate values
     const displayText = document.getElementById("time");
     const totalSeconds = await getRemainingTime();
 
     const remainingMinutes = Math.floor(totalSeconds / 60);
     const remainingSeconds = totalSeconds % 60;
 
+    // update text
     displayText.innerText = remainingMinutes + ":" + remainingSeconds;
 }
 
 async function getRemainingTime() {
-    const result = await chrome.storage.local.get(['remainingSeconds']);
+    const result = await chrome.storage.local.get(['remainingSeconds']);  // check for paused time
 
     return new Promise((resolve) => {
         chrome.alarms.get('timer', function(alarm) { 
@@ -73,9 +81,9 @@ async function getRemainingTime() {
                 const totalSeconds = Math.max(0, Math.floor(remainingTimeMilliseconds / 1000));
 
                 resolve(totalSeconds);
-            } else if (result.remainingSeconds != undefined) {
+            } else if (result.remainingSeconds != undefined) {  // existing paused time
                 resolve(result.remainingSeconds);
-            } else {  // paused/default time
+            } else {  // default time
                 resolve(timesArray[currentIndex] * 60);
             }
         });
