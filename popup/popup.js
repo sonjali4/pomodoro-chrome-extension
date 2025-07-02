@@ -1,11 +1,22 @@
 let timesArray = [25, 5, 15];
 let currentIndex = 0;
+let displayIndex = 0;
+// let intervalID;
+
+function changeDisplay(index) {
+    displayIndex = index;
+
+    // update display
+    updateTimeDisplay();
+}
 
 function startPauseTimer() {
     chrome.alarms.get('timer', function(alarm) {
         if (alarm) {
+            // clearInterval(intervalID);
             pauseTimer();
         } else {
+            // intervalID = setInterval(updateTimeDisplay, 1000);
             startTimer();
         }
     });
@@ -23,10 +34,11 @@ function startTimer() {
         }
 
         // create alarm
-        chrome.alarms.create('timer', { delayInMinutes: minutes });  // NOTE: 'timer' is the name of the alarm, maybe change name later ?
+        chrome.alarms.create('timer', { delayInMinutes: minutes });
         
         chrome.action.setBadgeText({ text: 'ON' });
         chrome.storage.local.set({ minutes: minutes });
+        chrome.storage.local.set({ activeTimerIndex: currentIndex });
 
         // update display
         document.getElementById("start-btn").innerText = "Pause";
@@ -43,6 +55,7 @@ async function pauseTimer() {
     chrome.alarms.clear('timer');
 
     // update display
+    chrome.action.setBadgeText({ text: '' });
     document.getElementById("start-btn").innerText = "Start";
     updateTimeDisplay();
 }
@@ -54,13 +67,14 @@ function resetTimer() {
     chrome.storage.local.remove('remainingSeconds');
 
     // update display
-    document.getElementById("start-btn").innerText = "Pause";
+    document.getElementById("start-btn").innerText = "Start";
     updateTimeDisplay();
 }
 
 async function updateTimeDisplay() {
-    // calculate values
     const displayText = document.getElementById("time");
+
+    // calculate values
     const totalSeconds = await getRemainingTime();
 
     const remainingMinutes = Math.floor(totalSeconds / 60);
@@ -72,19 +86,21 @@ async function updateTimeDisplay() {
 
 async function getRemainingTime() {
     const result = await chrome.storage.local.get(['remainingSeconds']);  // check for paused time
+    const active = await chrome.storage.local.get(['activeTimerIndex']);
+    const activeIndex = active.activeTimerIndex;
 
     return new Promise((resolve) => {
         chrome.alarms.get('timer', function(alarm) { 
-            if (alarm) {  // current alarm time
+            if (alarm && activeIndex == displayIndex) {  // current alarm time
                 const now = Date.now();
                 const remainingTimeMilliseconds = alarm.scheduledTime - now;
                 const totalSeconds = Math.max(0, Math.floor(remainingTimeMilliseconds / 1000));
 
                 resolve(totalSeconds);
-            } else if (result.remainingSeconds != undefined) {  // existing paused time
+            } else if (result.remainingSeconds != undefined && activeIndex == displayIndex) {  // existing paused time
                 resolve(result.remainingSeconds);
             } else {  // default time
-                resolve(timesArray[currentIndex] * 60);
+                resolve(timesArray[displayIndex] * 60);
             }
         });
     });
@@ -92,6 +108,10 @@ async function getRemainingTime() {
 
 document.getElementById("start-btn").addEventListener('click', startPauseTimer);
 document.getElementById("reset-btn").addEventListener('click', resetTimer);
+
+document.getElementById("study-time-btn").addEventListener('click', () => changeDisplay(0));
+document.getElementById("short-break-btn").addEventListener('click', () => changeDisplay(1));
+document.getElementById("long-break-btn").addEventListener('click', () => changeDisplay(2));
 
 window.onload = updateTimeDisplay();
 setInterval(updateTimeDisplay, 1000);
