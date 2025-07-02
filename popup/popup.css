@@ -21,7 +21,20 @@ h1 {
 .timer-btns {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    width: 100%;
+}
+
+#edit-btn {
+    margin-left: auto;
+}
+
+.timer-display {
     border: 1px solid black;
     width: 100%;
+    text-align: center;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
 }
