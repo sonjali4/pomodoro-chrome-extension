@@ -1,7 +1,6 @@
 let timesArray = [25, 5, 15];
 let currentIndex = 0;
 let displayIndex = 0;
-// let intervalID;
 
 function changeDisplay(index) {
     displayIndex = index;
@@ -13,10 +12,8 @@ function changeDisplay(index) {
 function startPauseTimer() {
     chrome.alarms.get('timer', function(alarm) {
         if (alarm) {
-            // clearInterval(intervalID);
             pauseTimer();
         } else {
-            // intervalID = setInterval(updateTimeDisplay, 1000);
             startTimer();
         }
     });
@@ -74,30 +71,35 @@ function resetTimer() {
 async function updateTimeDisplay() {
     const displayText = document.getElementById("time");
 
-    // calculate values
-    const totalSeconds = await getRemainingTime();
+    const active = await chrome.storage.local.get(['activeTimerIndex']);
+    const activeIndex = active.activeTimerIndex;
 
-    const remainingMinutes = Math.floor(totalSeconds / 60);
-    const remainingSeconds = totalSeconds % 60;
+    let totalSeconds, remainingMinutes, remainingSeconds;
 
-    // update text
+    if (activeIndex == displayIndex) {
+        totalSeconds = await getRemainingTime();
+    } else {  // use default time
+        totalSeconds = timesArray[displayIndex] * 60
+    }
+
+    remainingMinutes = Math.floor(totalSeconds / 60);
+    remainingSeconds = totalSeconds % 60;
+
     displayText.innerText = remainingMinutes + ":" + remainingSeconds;
 }
 
 async function getRemainingTime() {
     const result = await chrome.storage.local.get(['remainingSeconds']);  // check for paused time
-    const active = await chrome.storage.local.get(['activeTimerIndex']);
-    const activeIndex = active.activeTimerIndex;
 
     return new Promise((resolve) => {
         chrome.alarms.get('timer', function(alarm) { 
-            if (alarm && activeIndex == displayIndex) {  // current alarm time
+            if (alarm) {  // current alarm time
                 const now = Date.now();
                 const remainingTimeMilliseconds = alarm.scheduledTime - now;
                 const totalSeconds = Math.max(0, Math.floor(remainingTimeMilliseconds / 1000));
 
                 resolve(totalSeconds);
-            } else if (result.remainingSeconds != undefined && activeIndex == displayIndex) {  // existing paused time
+            } else if (result.remainingSeconds != undefined) {  // existing paused time
                 resolve(result.remainingSeconds);
             } else {  // default time
                 resolve(timesArray[displayIndex] * 60);
