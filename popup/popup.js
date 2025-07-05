@@ -1,4 +1,5 @@
-let timesArray = [25, 5, 15];
+// let timesArray = [25, 5, 15];
+let timesArray = [1, 2, 3];  // test array
 let currentIndex = 0;
 let displayIndex = 0;
 
@@ -34,7 +35,7 @@ function startTimer() {
         chrome.alarms.create('timer', { delayInMinutes: minutes });
         
         chrome.action.setBadgeText({ text: 'ON' });
-        chrome.storage.local.set({ minutes: minutes });
+        // chrome.storage.local.set({ minutes: minutes });
         chrome.storage.local.set({ activeTimerIndex: currentIndex });
 
         // update display
@@ -66,6 +67,22 @@ function resetTimer() {
     // update display
     document.getElementById("start-btn").innerText = "Start";
     updateTimeDisplay();
+}
+
+function startNextTimer() {
+    resetTimer();
+    setNextIndex();
+    startTimer();
+    updateTimeDisplay();
+}
+
+function setNextIndex() {
+    currentIndex = (getCurrentIndex() + 1) % timesArray.length;
+    displayIndex = currentIndex;
+}
+
+function getCurrentIndex() {
+    return currentIndex;
 }
 
 async function updateTimeDisplay() {
@@ -108,6 +125,7 @@ async function getRemainingTime() {
     });
 }
 
+// set button functions
 document.getElementById("start-btn").addEventListener('click', startPauseTimer);
 document.getElementById("reset-btn").addEventListener('click', resetTimer);
 
@@ -115,5 +133,13 @@ document.getElementById("study-time-btn").addEventListener('click', () => change
 document.getElementById("short-break-btn").addEventListener('click', () => changeDisplay(1));
 document.getElementById("long-break-btn").addEventListener('click', () => changeDisplay(2));
 
+// start next timer when current timer runs out
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message == "startNextTimer") {
+        startNextTimer();
+    }
+});
+
+// continuously update timer display
 window.onload = updateTimeDisplay();
 setInterval(updateTimeDisplay, 1000);
