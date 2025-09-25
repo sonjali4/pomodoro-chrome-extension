@@ -1,14 +1,14 @@
 // let timesArray = [25, 5, 15];
 let timesArray = [10, 20, 30];  // test array
 let currentIndex = 0;
-// let displayIndex = 0;
+let displayIndex = 0;
 
 let interval;
 let currentTime = timesArray[currentIndex];
 
 // basic timer functions
 function startTimer() {
-    updateTimeDisplay()
+    updateTimeDisplay(displayIndex);
 
     interval = setInterval(() => {
         if (currentTime <= 0) {
@@ -17,7 +17,7 @@ function startTimer() {
         }
 
         currentTime--;
-        updateTimeDisplay();
+        updateTimeDisplay(displayIndex);
     }, 1000);
 }
 
@@ -30,13 +30,14 @@ function resetTimer() {
     clearInterval(interval);
     interval = null;
     currentTime = timesArray[getCurrentIndex()];
-    updateTimeDisplay();
+    updateTimeDisplay(displayIndex);
 }
 
 // timer control functions
 function startNextTimer() {
     resetTimer();
     setNextIndex();
+    changeDisplay(currentIndex);
     startTimer();
 }
 
@@ -57,19 +58,39 @@ function startPause() {
     }
 }
 
-function updateTimeDisplay() {
-    chrome.runtime.sendMessage({action: "update-time-display", time: currentTime}, () => {
+function updateTimeDisplay(index) {
+    let time;
+    if (index == currentIndex) {
+        time = currentTime;
+    } else {
+        time = timesArray[index];
+    }
+
+    chrome.runtime.sendMessage({action: "update-time-display", time: time}, () => {
         if (chrome.runtime.lastError) {
             return;
         }
     });
 }
 
-// listeners
+function changeDisplay(index) {
+    displayIndex = index;
+    updateTimeDisplay(displayIndex);
+}
+
+// listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "start-pause") {
-        startPause();
-    } else if (message.action === "reset") {
-        resetTimer();
+    switch (message.action) {
+        case "start-pause":
+            startPause();
+            break;
+        case "reset":
+            resetTimer();
+            break;
+        case "change-display":
+            changeDisplay(message.index);
+            break;
+        default:
+            break;
     }
 })
