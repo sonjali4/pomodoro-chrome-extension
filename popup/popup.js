@@ -40,11 +40,22 @@ function changeDisplay(index) {
     chrome.runtime.sendMessage({action: "change-display", index: index});
 }
 
+function updateStartPauseBtn(state) {
+    if (state === 'start') {
+            startPauseBtn.textContent = 'Start';
+        } else {
+            startPauseBtn.textContent = 'Pause';
+        }
+}
+
 // listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.action) {
         case "update-time-display":
             setTimeDisplay(message.time);
+            break;
+        case "update-start-pause-btn":
+            updateStartPauseBtn(message.state);
             break;
         default:
             break;
@@ -62,3 +73,10 @@ startPauseBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
     chrome.runtime.sendMessage({action: "reset"});
 });
+
+// onload
+window.onload = () => {
+    // setTimeDisplay();
+    chrome.runtime.sendMessage({action: "set-display-onload"});
+
+}

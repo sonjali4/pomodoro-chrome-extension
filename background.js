@@ -56,6 +56,8 @@ function startPause() {
     } else {
         startTimer();
     }
+
+    updateStartPauseBtn();
 }
 
 function updateTimeDisplay(index) {
@@ -78,11 +80,27 @@ function changeDisplay(index) {
     updateTimeDisplay(displayIndex);
 }
 
+function updateStartPauseBtn() {
+    let state;
+
+    if (interval) {
+        state = "pause";
+    } else {
+        state = "start"
+    }
+
+    chrome.runtime.sendMessage({action: "update-start-pause-btn", state: state});
+}
+
 // listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.action) {
+        case "set-display-onload":
+            changeDisplay(currentIndex);
+            updateStartPauseBtn();
+            break;
         case "start-pause":
-            startPause();
+            sendResponse(startPause());
             break;
         case "reset":
             resetTimer();
