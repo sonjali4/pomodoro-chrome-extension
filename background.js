@@ -1,9 +1,10 @@
-// let timesArray = [25, 5, 15];
-let timesArray = [10, 20, 30];  // test array
+const defaultTimes = [25, 5, 15];
+let timesArray = [2, 3, 4];  // test array
 let currentIndex = 0;
 let displayIndex = 0;
 
-let iterations = 0;
+const maxPomodoros = 4;
+let pomodoroCounter = 0;
 
 let interval;
 let currentTime = timesArray[currentIndex];
@@ -37,12 +38,6 @@ function resetTimer() {
 }
 
 
-// pomodoro functions
-function iteration() {
-    
-}
-
-
 // timer control functions
 function startNextTimer() {
     resetTimer();
@@ -52,8 +47,19 @@ function startNextTimer() {
 }
 
 function setNextIndex() {
-    currentIndex = (getCurrentIndex() + 1) % timesArray.length;
-    currentTime = timesArray[currentIndex];
+    if (getCurrentIndex() == 0) {
+        pomodoroCounter++;
+        if (pomodoroCounter == maxPomodoros) {
+            currentIndex = 2
+            pomodoroCounter = 0;
+        } else {
+            currentIndex = 1
+        }
+    } else {
+        currentIndex = 0;
+    }
+
+    currentTime = timesArray[getCurrentIndex()];
 }
 
 function getCurrentIndex() {
