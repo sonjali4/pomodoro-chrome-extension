@@ -3,8 +3,11 @@ let timesArray = [10, 20, 30];  // test array
 let currentIndex = 0;
 let displayIndex = 0;
 
+let iterations = 0;
+
 let interval;
 let currentTime = timesArray[currentIndex];
+
 
 // basic timer functions
 function startTimer() {
@@ -32,6 +35,13 @@ function resetTimer() {
     currentTime = timesArray[getCurrentIndex()];
     updateTimeDisplay(displayIndex);
 }
+
+
+// pomodoro functions
+function iteration() {
+    
+}
+
 
 // timer control functions
 function startNextTimer() {
@@ -92,6 +102,12 @@ function updateStartPauseBtn() {
     chrome.runtime.sendMessage({action: "update-start-pause-btn", state: state});
 }
 
+function setTimeValues(newPomodoroTime, newShortBreakTime, newLongBreakTime) {
+    timesArray = [newPomodoroTime, newShortBreakTime, newLongBreakTime];
+    resetTimer();
+}
+
+
 // listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.action) {
@@ -99,8 +115,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             changeDisplay(currentIndex);
             updateStartPauseBtn();
             break;
+        case "edit-time-values":
+            setTimeValues(
+                message.newPomodoroTime, 
+                message.newShortBreakTime, 
+                message.newLongBreakTime
+            );
+            break;
         case "start-pause":
-            sendResponse(startPause());
+            startPause();
             break;
         case "reset":
             resetTimer();

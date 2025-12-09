@@ -24,7 +24,7 @@ body {
     text-align: center;
 } */
 
-.timer-container {
+#timer-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +32,7 @@ body {
     width: 150px;
 }
 
-.timer-btns {
+#timer-btns-container {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -42,22 +42,29 @@ body {
     margin-left: auto;
 }
 
-.timer-display {
+#timer-display {
     /* border: 1px solid black; */
     width: 100%;
     text-align: center;
+    z-index: 2;
 }
 
-.timer-control-btn-container {
+#timer-control-btn-container {
     display: flex;
     flex-direction: row;
+}
+
+#timer-edit-container {
+    background-color: white;
+    display: none;
+    z-index: 2;
 }
 
 #matcha-cake-img {
     position: absolute;
     bottom: 0;
     max-height: 200px;
-    z-index: 10;
+    z-index: 1;
     /* border: 1px solid black; */
     pointer-events: none;
 }

@@ -1,16 +1,22 @@
-const studyTimeBtn = document.getElementById("study-time-btn");
-const shortBreakBtn = document.getElementById("short-break-btn");
-const longBreakBtn = document.getElementById("long-break-btn");
+const studyTimeBtn = document.getElementById('study-time-btn');
+const shortBreakBtn = document.getElementById('short-break-btn');
+const longBreakBtn = document.getElementById('long-break-btn');
+
+const editBtn = document.getElementById('edit-btn');
+const editContainer = document.getElementById('timer-edit-container');
+const editForm = document.getElementById('timer-edit-form');
 
 const startPauseBtn = document.getElementById('start-pause-btn');
 const resetBtn = document.getElementById('reset-btn');
 
-const timeDisplay = document.getElementById('time-display');
+const timerContainer = document.getElementById('timer-container');
+const timeDisplay = document.getElementById('timer-display');
 
 const timeMinute1 = document.getElementById('timer-number-minute-1')
 const timeMinute2 = document.getElementById('timer-number-minute-2')
 const timeSecond1 = document.getElementById('timer-number-second-1')
 const timeSecond2 = document.getElementById('timer-number-second-2')
+
 
 // functions
 function setTimeDisplay(secondsRemaining) {
@@ -32,8 +38,6 @@ function setTimeDisplay(secondsRemaining) {
     timeMinute2.src = minuteImg2;
     timeSecond1.src = secondImg1;
     timeSecond2.src = secondImg2;
-
-    console.log('updated url');
 }
 
 function changeDisplay(index) {
@@ -47,6 +51,7 @@ function updateStartPauseBtn(state) {
             startPauseBtn.textContent = 'Pause';
         }
 }
+
 
 // listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -62,10 +67,34 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
+
 // set btn functions
 studyTimeBtn.addEventListener('click', () => changeDisplay(0));
 shortBreakBtn.addEventListener('click', () => changeDisplay(1));
 longBreakBtn.addEventListener('click', () => changeDisplay(2));
+
+editBtn.addEventListener('click', () => {
+    editContainer.style.display = 'block';
+    timeDisplay.style.display = 'none';
+})
+
+editForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(editForm);
+
+    const newPomodoroTime = parseInt(formData.get('pomodoro-time'));
+    const newShortBreakTime = parseInt(formData.get('short-break-time'));
+    const newLongBreakTime = parseInt(formData.get('long-break-time'));
+
+    chrome.runtime.sendMessage({action: "edit-time-values", 
+        newPomodoroTime: newPomodoroTime, 
+        newShortBreakTime: newShortBreakTime, 
+        newLongBreakTime: newLongBreakTime
+    })
+
+    editContainer.style.display = 'none';
+    timeDisplay.style.display = 'block';
+});
 
 startPauseBtn.addEventListener('click', () => {
     chrome.runtime.sendMessage({action: "start-pause"});
@@ -74,9 +103,8 @@ resetBtn.addEventListener('click', () => {
     chrome.runtime.sendMessage({action: "reset"});
 });
 
+
 // onload
 window.onload = () => {
-    // setTimeDisplay();
     chrome.runtime.sendMessage({action: "set-display-onload"});
-
 }

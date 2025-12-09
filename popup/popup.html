@@ -10,29 +10,46 @@
   <body>
     <!-- <h1>Pomodoro Timer</h1> -->
     
-    <div class="timer-container">
-      <div class="timer-btns">
-        <button class="timer-btn" id="study-time-btn">1</button>
-        <button class="timer-btn" id="short-break-btn">2</button>
-        <button class="timer-btn" id="long-break-btn">3</button>
+    <div id="timer-container">
+      <div id="timer-btns-container">
+        <button class="timer-btn" id="study-time-btn">pomodoro</button>
+        <button class="timer-btn" id="short-break-btn">short break</button>
+        <button class="timer-btn" id="long-break-btn">long break</button>
         <button class="timer-btn" id="edit-btn">edit</button>
       </div>
 
-      <div class="timer-display">
+      <div id="timer-display">
         <!-- <p id="time-display"></p> -->
-        <div class="timer-number-imgs">
+        <div id="timer-number-imgs">
           <img class="timer-number" id="timer-number-minute-1" src="../images/images-numbers/time-0.png">
           <img class="timer-number" id="timer-number-minute-2" src="../images/images-numbers/time-1.png">
           <img class="timer-number" id="timer-number-colon" src="../images/images-numbers/time-colon.png">
           <img class="timer-number" id="timer-number-second-1" src="../images/images-numbers/time-2.png">
           <img class="timer-number" id="timer-number-second-2" src="../images/images-numbers/time-3.png">
         </div>
-      </div>
 
-      <div class="timer-control-btn-container">
-        <button id="start-pause-btn">Start</button>
-        <button id="reset-btn">Reset</button>
+        <div id="timer-control-btn-container">
+          <button id="start-pause-btn">Start</button>
+          <button id="reset-btn">Reset</button>
+        </div>
+
       </div>
+    </div>
+
+    <div id="timer-edit-container">
+      <form id="timer-edit-form">
+        <label for="pomodoro-time">pomodoro</label>
+        <input type="text" name="pomodoro-time" value="25">
+        <br>
+        <label for="short-break-time">short break</label>
+        <input type="text" name="short-break-time" value="5">
+        <br>
+        <label for="long-break-time">long break</label>
+        <input type="text" name="long-break-time" value="15">
+        <br>
+
+        <input type="submit" value="save">
+      </form>
     </div>
 
     <img id="matcha-cake-img" src="../images/pixil-frame-1.png">
