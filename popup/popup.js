@@ -5,6 +5,7 @@ const longBreakBtn = document.getElementById('long-break-btn');
 const editBtn = document.getElementById('edit-btn');
 const editContainer = document.getElementById('timer-edit-container');
 const editForm = document.getElementById('timer-edit-form');
+const editCloseBtn = document.getElementById('edit-close-btn');
 
 const startPauseBtn = document.getElementById('start-pause-btn');
 const resetBtn = document.getElementById('reset-btn');
@@ -52,6 +53,11 @@ function updateStartPauseBtn(state) {
         }
 }
 
+function closeEditForm() {
+    editContainer.style.display = 'none';
+    timeDisplay.style.display = 'block';
+}
+
 
 // listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -69,9 +75,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 
 // set btn functions
-studyTimeBtn.addEventListener('click', () => changeDisplay(0));
-shortBreakBtn.addEventListener('click', () => changeDisplay(1));
-longBreakBtn.addEventListener('click', () => changeDisplay(2));
+studyTimeBtn.addEventListener('click', () => {
+    closeEditForm();
+    changeDisplay(0);
+});
+shortBreakBtn.addEventListener('click', () => {
+    closeEditForm();
+    changeDisplay(1);
+});
+longBreakBtn.addEventListener('click', () => {
+    closeEditForm();
+    changeDisplay(2);
+});
 
 editBtn.addEventListener('click', () => {
     editContainer.style.display = 'block';
@@ -92,9 +107,24 @@ editForm.addEventListener('submit', (event) => {
         newLongBreakTime: newLongBreakTime
     })
 
-    editContainer.style.display = 'none';
-    timeDisplay.style.display = 'block';
+    // editContainer.style.display = 'none';
+    // timeDisplay.style.display = 'block';
+    closeEditForm();
 });
+
+editForm.addEventListener('reset', () => {
+    chrome.runtime.sendMessage({action: "edit-time-values", 
+        newPomodoroTime: 25, 
+        newShortBreakTime: 5, 
+        newLongBreakTime: 15
+    });
+    closeEditForm();
+})
+
+editCloseBtn.addEventListener('click', () => {
+    closeEditForm();
+})
+
 
 startPauseBtn.addEventListener('click', () => {
     chrome.runtime.sendMessage({action: "start-pause"});
