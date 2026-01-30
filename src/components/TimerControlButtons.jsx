@@ -1,11 +1,11 @@
 import { TimerButton } from "./TimerButton";
 
-function TimerControlButtons() {
+function TimerControlButtons({ start, pause, reset, timerRunning }) {
     return (
         <div id="timer-control-btn-container">
-            <TimerButton buttonText="start" />
-            <TimerButton buttonText="pause" />
-            <TimerButton buttonText="reset" />
+            {!timerRunning && <TimerButton buttonText="start" onClick={start} />}
+            {timerRunning && <TimerButton buttonText="pause" onClick={pause} />}
+            <TimerButton buttonText="reset" onClick={reset} />
         </div>
     );
 }
