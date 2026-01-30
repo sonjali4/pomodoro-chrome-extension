@@ -15,7 +15,9 @@ To run this project locally, follow the steps below:
 
 3. Enable **developer mode**
 
-4. Click **load unpacked** and select the cloned repository folder
+4. Click **load unpacked**
+
+5. Locate the cloned repository folder and select the folder named 'dist'
 
 ## End Note:
-Image assets designed and created by sonjali4
+Image assets created by sonjali4
