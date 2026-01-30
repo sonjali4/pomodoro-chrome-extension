@@ -98,6 +98,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "reset":
             resetTimer();
             break;
+        case 'update-times':
+            modes = message.times;
+            remainingTime = modes[currentMode];
+            updateTimeDisplay();
+            break;
         case "get-state":
             sendResponse({modes, currentMode, remainingTime, timerRunning});
             return true;

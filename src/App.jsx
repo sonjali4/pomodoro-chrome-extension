@@ -43,7 +43,9 @@ function App() {
 
   return (
     <>
-      <TimerModeButtons />
+      <TimerModeButtons
+        modes={state.modes}
+      />
       <Time secondsRemaining={state.remainingTime} />
       <TimerControlButtons
         start={() => send('start')}
