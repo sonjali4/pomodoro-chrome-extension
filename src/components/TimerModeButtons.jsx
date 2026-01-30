@@ -1,4 +1,5 @@
 import { TimerButton } from './TimerButton';
+import { TimeEditButton } from './TimeEditButton';
 
 function TimerModeButtons() {
     return (
@@ -6,7 +7,8 @@ function TimerModeButtons() {
             <TimerButton buttonText="pomodoro" className="timer-btn" />
             <TimerButton buttonText="short break" className="timer-btn" />
             <TimerButton buttonText="long break" className="timer-btn" />
-            <TimerButton buttonText="edit" className="timer-btn" />
+            
+            <TimeEditButton />
         </div>
     );
 }

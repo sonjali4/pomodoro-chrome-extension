@@ -1,6 +1,6 @@
-function TimerButton({ buttonText, className }) {
+function TimerButton({ buttonText, className, onClick }) {
     return (
-        <button className={className}>
+        <button className={className} onClick={onClick}>
             {buttonText}
         </button>
     );
