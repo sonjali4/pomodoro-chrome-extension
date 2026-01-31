@@ -67,6 +67,14 @@ button:focus-visible {
   }
 }
 
+.active-timer {
+  background-color: pink;
+}
+
+.timer-mode-btn {
+  background-color: white;
+}
+
 #modal-overlay {
   position: fixed;
   z-index: 1;

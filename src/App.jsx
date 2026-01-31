@@ -45,6 +45,7 @@ function App() {
     <>
       <TimerModeButtons
         modes={state.modes}
+        currentMode={state.currentMode}
       />
       <Time secondsRemaining={state.remainingTime} />
       <TimerControlButtons
