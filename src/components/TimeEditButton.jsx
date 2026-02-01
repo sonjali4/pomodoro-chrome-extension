@@ -12,7 +12,7 @@ function TimeEditButton({ modes }) {
 
     return (
         <div>
-            <TimerButton buttonText="edit" onClick={toggleVisibility} />
+            <TimerButton buttonId="edit-btn" buttonText="edit" onClick={toggleVisibility} />
 
             {isVisible && (
                 <div id="modal-overlay" onClick={toggleVisibility}>

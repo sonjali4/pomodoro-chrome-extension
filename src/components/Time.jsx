@@ -13,7 +13,7 @@ function Time({ secondsRemaining }) {
     const secondImage2 = number_images[secondString.charAt(1)];
 
     return (
-        <div id='timer-numbers'>
+        <div id='time-container'>
             <img className="timer-number" src={minuteImage1} />
             <img className="timer-number" src={minuteImage2} />
             <img className="timer-number" src={number_images[':']} />

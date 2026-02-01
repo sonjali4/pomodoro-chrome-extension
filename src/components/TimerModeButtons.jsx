@@ -7,20 +7,20 @@ function TimerModeButtons({ modes, currentMode }) {
     }
 
     return (
-        <div id="timer-btns-container">
+        <div id="timer-mode-btns-container">
             <TimerButton
                 buttonText="pomodoro"
-                className={currentMode === 'pomodoro' ? 'active-timer' : 'timer-mode-btn'}
+                className={ `timer-mode-btn ${currentMode === 'pomodoro' ? 'active-timer-btn' : ''}` }
                 onClick={() => changeMode('pomodoro')}
             />
             <TimerButton
                 buttonText="short break"
-                className={currentMode === 'shortBreak' ? 'active-timer' : 'timer-mode-btn'}
+                className={ `timer-mode-btn ${currentMode === 'shortBreak' ? 'active-timer-btn' : ''}` }
                 onClick={() => changeMode('shortBreak')}
             />
             <TimerButton
                 buttonText="long break"
-                className={currentMode === 'longBreak' ? 'active-timer' : 'timer-mode-btn'}
+                className={ `timer-mode-btn ${currentMode === 'longBreak' ? 'active-timer-btn' : ''}` }
                 onClick={() => changeMode('longBreak')}
             />
             
