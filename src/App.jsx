@@ -43,17 +43,19 @@ function App() {
 
   return (
     <>
-      <TimerModeButtons
-        modes={state.modes}
-        currentMode={state.currentMode}
-      />
-      <Time secondsRemaining={state.remainingTime} />
-      <TimerControlButtons
-        start={() => send('start')}
-        pause={() => send('pause')}
-        reset={() => send('reset')}
-        timerRunning={state.timerRunning}
-      />
+      <div id="main-container">
+        <TimerModeButtons
+          modes={state.modes}
+          currentMode={state.currentMode}
+        />
+        <Time secondsRemaining={state.remainingTime} />
+        <TimerControlButtons
+          start={() => send('start')}
+          pause={() => send('pause')}
+          reset={() => send('reset')}
+          timerRunning={state.timerRunning}
+        />
+      </div>
     </>
   )
 }

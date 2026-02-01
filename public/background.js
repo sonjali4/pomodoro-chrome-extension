@@ -1,14 +1,14 @@
-// let modes = {
-//     pomodoro: 25 * 60,
-//     shortBreak: 5 * 60,
-//     longBreak: 15 * 60
-// };
-
-let modes = {  // test values
-    pomodoro: 2,
-    shortBreak: 3,
-    longBreak: 4
+let modes = {
+    pomodoro: 25 * 60,
+    shortBreak: 5 * 60,
+    longBreak: 15 * 60
 };
+
+// let modes = {  // test values
+//     pomodoro: 2,
+//     shortBreak: 3,
+//     longBreak: 4
+// };
 
 let currentMode = 'pomodoro';
 let interval = null;

@@ -21,18 +21,32 @@ function TimeEditForm({ modes, onClose }) {
 
     return (
         <div id="timer-edit-container">
+            <h1 id="edit-form-heading">Edit</h1>
+
             <form id="timer-edit-form" onSubmit={onSubmit}>
-                <label htmlFor="pomodoro-time">pomodoro</label>
-                <input type="number" name="pomodoro" value={times.pomodoro} onChange={handleChange} />
-                <br />
+                <div className="edit-form-line-container">
+                    <label htmlFor="pomodoro-time">pomodoro</label>
+                    <div className="edit-form-input-container">
+                        <input type="number" name="pomodoro" value={times.pomodoro} onChange={handleChange} />
+                        <p>min</p>
+                    </div>
+                </div>
 
-                <label htmlFor="short-break-time">short break</label>
-                <input type="number" name="shortBreak" value={times.shortBreak} onChange={handleChange} />
-                <br />
+                <div className="edit-form-line-container">
+                    <label htmlFor="short-break-time">short break</label>
+                    <div className="edit-form-input-container">
+                        <input type="number" name="shortBreak" value={times.shortBreak} onChange={handleChange} />
+                        <p>min</p>
+                    </div>
+                </div>
 
-                <label htmlFor="long-break-time">long break</label>
-                <input type="number" name="longBreak" value={times.longBreak} onChange={handleChange} />
-                <br />
+                <div className="edit-form-line-container">
+                    <label htmlFor="long-break-time">long break</label>
+                    <div className="edit-form-input-container">
+                        <input type="number" name="longBreak" value={times.longBreak} onChange={handleChange} />
+                        <p>min</p>
+                    </div>
+                </div>
 
                 <input type="submit" value="save" />
                 <input type="reset" value="reset" />

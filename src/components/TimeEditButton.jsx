@@ -11,7 +11,7 @@ function TimeEditButton({ modes }) {
     };
 
     return (
-        <div>
+        <div id="edit-btn-container">
             <TimerButton buttonId="edit-btn" buttonText="edit" onClick={toggleVisibility} />
 
             {isVisible && (
