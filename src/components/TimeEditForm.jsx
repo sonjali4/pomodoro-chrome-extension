@@ -15,6 +15,8 @@ function TimeEditForm({ modes, onClose }) {
     );
 
     const handleMinutesChange = (mode, minutes) => {
+        if (minutes.length > 2) return;
+
         setTimes(prev => ({
             ...prev,
             [mode]: {
@@ -25,6 +27,8 @@ function TimeEditForm({ modes, onClose }) {
     }
 
     const handleSecondsChange = (mode, seconds) => {
+        if (seconds.length > 2) return;
+
         setTimes(prev => ({
             ...prev,
             [mode]: {
@@ -32,6 +36,23 @@ function TimeEditForm({ modes, onClose }) {
                 seconds: seconds
             }
         }));
+    }
+
+    const setDefault = () => {
+        setTimes({
+            pomodoro: {
+                minutes: 25,
+                seconds: 0
+            },
+            shortBreak: {
+                minutes: 5,
+                seconds: 0
+            },
+            longBreak: {
+                minutes: 15,
+                seconds: 0
+            },
+        });
     }
 
     const onSubmit = (e) => {
@@ -45,7 +66,6 @@ function TimeEditForm({ modes, onClose }) {
         );
 
         chrome.runtime.sendMessage({ action: 'update-times', times: updatedTimes });
-
         onClose();
     }
 
@@ -76,10 +96,10 @@ function TimeEditForm({ modes, onClose }) {
                     times={times.longBreak}
                     onMinutesChange={(e) => handleMinutesChange('longBreak', e.target.value)}
                     onSecondsChange={(e) => handleSecondsChange('longBreak', e.target.value)}
-                />                
+                />
 
                 <input type="submit" value="save" />
-                <input type="reset" value="reset" />
+                <input type="button" id="default-btn" value="default" onClick={setDefault} />
                 <input type="button" id="edit-close-btn" value="close" onClick={onClose} />
             </form>
         </div>

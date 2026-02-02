@@ -6,8 +6,10 @@ function ModeInputs({ text, mode, times, onMinutesChange, onSecondsChange }) {
             <div className="edit-form-input-container">
                 <input 
                     type="number"
-                    value={times.minutes} 
-                    onChange={onMinutesChange} 
+                    min="0"
+                    max="99"
+                    value={times.minutes}
+                    onChange={onMinutesChange}
                 />
                 <p>min</p>
             </div>
@@ -15,6 +17,8 @@ function ModeInputs({ text, mode, times, onMinutesChange, onSecondsChange }) {
             <div className="edit-form-input-container">
                 <input
                     type="number"
+                    min="0"
+                    max="59"
                     value={times.seconds}
                     onChange={onSecondsChange}
                 />
