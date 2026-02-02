@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { ModeInputs } from './ModeInputs.jsx';
+
 function TimeEditForm({ modes, onClose }) {
     const [times, setTimes] = useState(() =>
         Object.fromEntries(
@@ -52,73 +54,29 @@ function TimeEditForm({ modes, onClose }) {
             <h1 id="edit-form-heading">Edit</h1>
 
             <form id="timer-edit-form" onSubmit={onSubmit}>
-                <div className="edit-form-line-container">
-                    <label htmlFor="pomodoro-time">pomodoro</label>
-                    <div className="edit-form-input-container">
-                        <input 
-                            type="number"
-                            value={times.pomodoro.minutes} 
-                            onChange={(e) => handleMinutesChange('pomodoro', e.target.value)} 
-                        />
-                        <p>min</p>
-                    </div>
-                    <div className="edit-form-input-container">
-                        <input
-                            type="number"
-                            value={times.pomodoro.seconds}
-                            onChange={(e) => {
-                                handleSecondsChange('pomodoro', e.target.value);
-                            }}
-                        />
-                        <p>sec</p>
-                    </div>
-                </div>
+                <ModeInputs 
+                    text="pomodoro"
+                    mode="pomodoro"
+                    times={times.pomodoro}
+                    onMinutesChange={(e) => handleMinutesChange('pomodoro', e.target.value)}
+                    onSecondsChange={(e) => handleSecondsChange('pomodoro', e.target.value)}
+                />
 
-                <div className="edit-form-line-container">
-                    <label htmlFor="short-break-time">short break</label>
-                    <div className="edit-form-input-container">
-                        <div className="edit-form-input-container">
-                        <input 
-                            type="number"
-                            value={times.shortBreak.minutes} 
-                            onChange={(e) => handleMinutesChange('shortBreak', e.target.value)} 
-                        />
-                        <p>min</p>
-                    </div>
-                    <div className="edit-form-input-container">
-                        <input
-                            type="number"
-                            value={times.shortBreak.seconds}
-                            onChange={(e) => {
-                                handleSecondsChange('shortBreak', e.target.value);
-                            }}
-                        />
-                        <p>sec</p>
-                    </div>
-                    </div>
-                </div>
+                <ModeInputs 
+                    text="short break"
+                    mode="shortBreak"
+                    times={times.shortBreak}
+                    onMinutesChange={(e) => handleMinutesChange('shortBreak', e.target.value)}
+                    onSecondsChange={(e) => handleSecondsChange('shortBreak', e.target.value)}
+                />
 
-                <div className="edit-form-line-container">
-                    <label htmlFor="long-break-time">long break</label>
-                    <div className="edit-form-input-container">
-                        <input 
-                            type="number"
-                            value={times.longBreak.minutes} 
-                            onChange={(e) => handleMinutesChange('longBreak', e.target.value)} 
-                        />
-                        <p>min</p>
-                    </div>
-                    <div className="edit-form-input-container">
-                        <input
-                            type="number"
-                            value={times.longBreak.seconds}
-                            onChange={(e) => {
-                                handleSecondsChange('longBreak', e.target.value);
-                            }}
-                        />
-                        <p>sec</p>
-                    </div>
-                </div>
+                <ModeInputs 
+                    text="long break"
+                    mode="longBreak"
+                    times={times.longBreak}
+                    onMinutesChange={(e) => handleMinutesChange('longBreak', e.target.value)}
+                    onSecondsChange={(e) => handleSecondsChange('longBreak', e.target.value)}
+                />                
 
                 <input type="submit" value="save" />
                 <input type="reset" value="reset" />

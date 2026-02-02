@@ -62,7 +62,7 @@ button {
   border-bottom: none;
   border-radius: 8px 8px 0 0;
   background-color: #E6EFCB;
-  transition: height 0.3s ease-out, background-color 0.2s ease-in-out;
+  transition: height 0.4s ease-out, background-color 0.2s ease-in-out;
   overflow: hidden;
 }
 
@@ -96,6 +96,7 @@ button {
 #edit-btn {
   border: 1px solid transparent;
   border-radius: 8px 8px 0 0;
+  background-color: white;
   transition: background-color 0.2s ease-in-out;
 }
 
