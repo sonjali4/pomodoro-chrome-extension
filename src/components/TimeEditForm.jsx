@@ -14,6 +14,18 @@ function TimeEditForm({ modes, onClose }) {
         )
     );
 
+    const [message, setMessage] = useState("");
+    const [messageStatus, setMessageStatus] = useState("stale");
+
+    const showMessage = (newMessage) => {
+        setMessageStatus("update");
+        setMessage(newMessage);
+
+        const delay = setTimeout(() => {
+            setMessageStatus("stale");
+        }, 200);
+    }
+
     const handleMinutesChange = (mode, minutes) => {
         if (minutes.length > 2) return;
 
@@ -58,6 +70,8 @@ function TimeEditForm({ modes, onClose }) {
     const onSubmit = (e) => {
         e.preventDefault();
 
+        showMessage('settings saved!')
+
         const updatedTimes = Object.fromEntries(
             Object.entries(times).map(([mode, {minutes, seconds}]) => [
                 mode,
@@ -66,7 +80,7 @@ function TimeEditForm({ modes, onClose }) {
         );
 
         chrome.runtime.sendMessage({ action: 'update-times', times: updatedTimes });
-        onClose();
+        // onClose();
     }
 
     return (
@@ -75,6 +89,7 @@ function TimeEditForm({ modes, onClose }) {
 
             <form id="timer-edit-form" onSubmit={onSubmit}>
                 <ModeInputs 
+                    containerId="pomodoro-edit-input"
                     text="pomodoro"
                     mode="pomodoro"
                     times={times.pomodoro}
@@ -82,7 +97,8 @@ function TimeEditForm({ modes, onClose }) {
                     onSecondsChange={(e) => handleSecondsChange('pomodoro', e.target.value)}
                 />
 
-                <ModeInputs 
+                <ModeInputs
+                    containerId="short-break-edit-input"
                     text="short break"
                     mode="shortBreak"
                     times={times.shortBreak}
@@ -90,7 +106,8 @@ function TimeEditForm({ modes, onClose }) {
                     onSecondsChange={(e) => handleSecondsChange('shortBreak', e.target.value)}
                 />
 
-                <ModeInputs 
+                <ModeInputs
+                    containerId="long-break-edit-input"
                     text="long break"
                     mode="longBreak"
                     times={times.longBreak}
@@ -98,10 +115,17 @@ function TimeEditForm({ modes, onClose }) {
                     onSecondsChange={(e) => handleSecondsChange('longBreak', e.target.value)}
                 />
 
-                <input type="submit" value="save" />
-                <input type="button" id="default-btn" value="default" onClick={setDefault} />
-                <input type="button" id="edit-close-btn" value="close" onClick={onClose} />
+                <input type="submit" id="edit-save-btn" value="save" />
+                <input type="button" id="default-btn" value="default" onClick={() => {
+                    setDefault();
+                    showMessage('reset to default times');
+                    }} />
+                <input type="button" id="edit-close-btn" value="&#x2715;" onClick={onClose} />
             </form>
+
+            <div id="edit-message-container" className={messageStatus}>
+                {message}
+            </div>
         </div>
     );
 }

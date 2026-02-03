@@ -115,6 +115,7 @@ button {
 }
 
 #modal-content {
+  position: relative;
   width: 80%;
   height: 80%;
   margin: auto;
@@ -122,25 +123,42 @@ button {
   border-radius: 8px;
 }
 
+#timer-edit-container {
+  height: 100%;
+}
+
 #edit-form-heading {
   font-size: 15px;
   font-weight: 300;
+  padding: 0;
+  margin: 6px 0 2px 0;
 }
 
 .edit-form-line-container {
   display: flex;
   flex-direction: row;
-  width: 70%;
+  width: 75%;
   height: 20px;
-  /* margin: auto; */
   margin: 6px auto 6px auto;
   padding: 3px;
-  background-color: #F5D8DB;
   border-radius: 8px;
 }
 
+#pomodoro-edit-input {
+  background-color: #F5D8DB;
+}
+
+#short-break-edit-input {
+  background-color: #E6EFCB;
+  /* background-color: #D1E6B3; */
+}
+
+#long-break-edit-input {
+  background-color: #D1E6B3;
+}
+
 .edit-form-line-container label {
-  width: 45%;
+  width: 40%;
   text-align: left;
   padding-left: 4px;
 }
@@ -149,8 +167,8 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 55%;
-  margin-left: auto;
+  width: 30%;
+  margin-left: 6px;
   border-radius: 6px;
   background-color: white;
   position: relative;
@@ -161,7 +179,7 @@ button {
   display: flex;
   border: none;
   background-color: transparent;
-  padding-left: 10px;
+  padding-left: 6px;
   z-index: 1;
 }
 
@@ -174,6 +192,69 @@ input[type=number]::-webkit-outer-spin-button {
 .edit-form-input-container p {
   position: absolute;
   right: 6px;
+}
+
+#edit-save-btn, #default-btn {
+  margin: 3px;
+  border: none;
+  border-radius: 6px;
+  /* filter: drop-shadow(2px 2px 2px #D1E6B3); */
+  transition: background-color 0.3s ease-in-out;
+}
+
+#edit-save-btn {
+  /* border: 2px solid #D1E6B3; */
+  width: 50px;
+  height: 20px;
+  background-color: #E6EFCB;
+}
+
+#default-btn {
+  width: 60px;
+  height: 20px;
+  background-color: #F5D8DB;
+}
+
+#edit-save-btn:hover, #default-btn:hover {
+  cursor: pointer;
+}
+
+#edit-save-btn:hover {
+  background-color: #D1E6B3;
+}
+
+#default-btn:hover {
+  background-color: #F0C6CC;
+}
+
+#edit-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  padding: 0px;
+  margin: 6px;
+  /* text-align: center; */
+  font-size: 12px;
+  background-color: #F0C6CC;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#edit-close-btn:hover {
+  cursor: pointer;
+  background-color: #F5D8DB;
+}
+
+#edit-message-container.update {
+  color: #C66774;
+}
+
+#edit-message-container.stale {
+  color: black;
+  transition: color 0.5s ease;
 }
 
 #time-container {

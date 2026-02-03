@@ -1,6 +1,6 @@
-function ModeInputs({ text, mode, times, onMinutesChange, onSecondsChange }) {
+function ModeInputs({ containerId, text, mode, times, onMinutesChange, onSecondsChange }) {
     return (
-        <div className="edit-form-line-container">
+        <div className="edit-form-line-container" id={containerId}>
             <label htmlFor={mode}>{text}</label>
 
             <div className="edit-form-input-container">
